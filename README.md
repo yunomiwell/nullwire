@@ -1,14 +1,14 @@
-# VEIL Protocol
+# NullWire Protocol
 
 **The successor to TOR. Built for 2026.**
 
-VEIL is a Solana-native anonymous communication protocol combining a Loopix-based mixnet, post-quantum encryption, and zero-knowledge identity — making traffic analysis mathematically impossible for the first time.
+NullWire is a Solana-native anonymous communication protocol combining a Loopix-based mixnet, post-quantum encryption, and zero-knowledge identity — making traffic analysis mathematically impossible for the first time.
 
-> *"Encrypting the content of a message is solved. Hiding the fact that you sent one is not. VEIL solves both."*
+> *"Encrypting the content of a message is solved. Hiding the fact that you sent one is not. NullWire solves both."*
 
 ---
 
-## Why VEIL Exists
+## Why NullWire Exists
 
 Every existing privacy tool has a fatal flaw:
 
@@ -19,7 +19,7 @@ Every existing privacy tool has a fatal flaw:
 | **Session** | Onion routing — same fundamental weakness as TOR. |
 | **Nym** | Correct mixnet architecture. No consumer product after 7 years. |
 
-VEIL is the first protocol to combine the right architecture (mixnet) with economic incentives, post-quantum encryption, and a consumer product.
+NullWire is the first protocol to combine the right architecture (mixnet) with economic incentives, post-quantum encryption, and a consumer product.
 
 ---
 
@@ -35,7 +35,7 @@ VEIL is the first protocol to combine the right architecture (mixnet) with econo
 
 ## Whitepaper
 
-**[VEIL_PROTOCOL_WHITEPAPER.pdf](./VEIL_PROTOCOL_WHITEPAPER.pdf)** — v0.1, March 2026
+**[NULLWIRE_PROTOCOL_WHITEPAPER.pdf](./NULLWIRE_PROTOCOL_WHITEPAPER.pdf)** — v0.1, March 2026
 
 20-page technical specification covering protocol architecture, cryptographic stack, Solana integration, competitor analysis, attack resistance, and tokenomics.
 
@@ -63,7 +63,7 @@ VEIL is the first protocol to combine the right architecture (mixnet) with econo
 
 ## Status
 
-This repository contains the whitepaper and architecture specification for VEIL Protocol v0.1.  
+This repository contains the whitepaper and architecture specification for NullWire Protocol v0.1.  
 Protocol implementation is in active development.
 
 ---
@@ -72,4 +72,4 @@ Protocol implementation is in active development.
 
 MIT License — Copyright © 2026 yunomiwell
 
-*VEIL Protocol is a legitimate privacy tool. Building it is legal and protected as free speech (Bernstein v. DOJ, 1999).*
+*NullWire Protocol is a legitimate privacy tool. Building it is legal and protected as free speech (Bernstein v. DOJ, 1999).*

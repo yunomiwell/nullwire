@@ -35,7 +35,7 @@ NullWire is the first protocol to combine the right architecture (mixnet) with e
 
 ## Whitepaper
 
-**[NULLWIRE_PROTOCOL_WHITEPAPER.pdf](./NULLWIRE_PROTOCOL_WHITEPAPER.pdf)** — v0.1, March 2026
+**[NULLWIRE_PROTOCOL_WHITEPAPER.pdf](./NULLWIRE_WHITEPAPER.pdf)** — v0.1, March 2026
 
 20-page technical specification covering protocol architecture, cryptographic stack, Solana integration, competitor analysis, attack resistance, and tokenomics.
 

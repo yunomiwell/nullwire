@@ -39,7 +39,7 @@ NullWire is the first protocol to combine the right architecture (mixnet) with e
 26-page technical specification. Architecture, cryptographic stack, threat model, attack resistance, node economics.
 IPFS: `bafkreibkk3653yifyy5gfuk33xiyysjm6ou2enzir5si4ogbcwydcyjoue`
 
-**[`nullwire_arxiv.pdf`](./nullwire_arxiv.pdf)** — Academic paper, 21 pages
+**[`NULLWIRE_ARXIV.pdf`](./NULLWIRE_ARXIV.pdf)** — Academic paper, 21 pages
 Submitted to arXiv cs.CR (pending endorsement). Formal treatment of anonymity guarantees, PQ security, and limitation analysis.
 IPFS: `bafybeibir25fmtxqugeqthuhex57blkm5zgtpmfpk5kz36yha74vyr3uky`
 

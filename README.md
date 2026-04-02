@@ -64,7 +64,7 @@ Timelines are aspirational and subject to funding and Phase 0 validation results
 - **Cryptographers** familiar with Loopix / mixnet design
 - Anyone who believes private communication is a right, not a privilege
 
-**Contact:** Open an issue · X [@nllwrprtcl](https://x.com/nllwrprtcl) · nullwireprotocol@gmail.com
+**Contact:** Open an issue · X [@nllwrprtcl](https://x.com/nllwrprtcl) · relay@nullwire.xyz
 
 ---
 

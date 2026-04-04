@@ -25,39 +25,46 @@
 | **Solchat** | None | Fast | Solana | Tiny | On-chain text — not encrypted, not anonymous |
 | **NULLWIRE** | Strong | Fast | Solana | 0 (us) | Doesn't exist yet. That's the gap. |
 
-**The Gap:** No protocol combines Solana's speed + blockchain uncensorability + onion routing anonymity + economic incentives for node operators. We're building that.
+**The Gap:** No protocol combines Solana's speed + blockchain uncensorability + mixnet anonymity (cover traffic, batching, Poisson delays) + economic incentives for node operators. We're building that.
 
 ---
 
 ## Architecture — How It Works
 
-### Core Concept: "Dead Drop Routing"
+### Core Concept: Mixnet + Solana Control Plane
 
-Inspired directly by GlassWorm's C2 technique, but inverted for legitimate use:
+Message payloads travel exclusively through an off-chain P2P mixnet — Solana is never in the payload path. Solana functions as the tamper-resistant, decentralized control plane: node registry, staking, routing table updates, and incentive distribution.
 
 ```
-[Sender] → Encrypt(msg) → Write to Solana Program Account (encrypted payload)
-                                    ↓
-[Relay Node 1] → Read → Re-encrypt → Write to different Account
-                                    ↓
-[Relay Node 2] → Read → Re-encrypt → Write to different Account
-                                    ↓
-[Relay Node 3] → Read → Decrypt outer layer → Deliver to recipient's inbox account
-                                    ↓
-[Recipient] → Read from inbox account → Decrypt final layer → Message
+[Sender]
+  → Sphinx-format packet (fixed-size, Poisson-delayed)
+  → P2P to Mix Node 1 (off-chain)
+        ↓ batch + shuffle + inject dummy traffic (~200ms delay)
+  → P2P to Mix Node 2 (off-chain)
+        ↓ batch + shuffle + inject dummy traffic (~200ms delay)
+  → P2P to Mix Node 3 (off-chain)
+        ↓ strip final encryption layer
+  → Deliver to Recipient (off-chain, direct P2P)
+
+SOLANA (control plane only — zero payloads on-chain):
+  → Mix node registry + staking
+  → Routing table / node public keys
+  → Epoch-based reward distribution
+  → Governance votes
 ```
 
 ### Key Technical Components
 
-**1. Solana Program (Smart Contract)**
-- Custom program managing encrypted message accounts
-- Ephemeral accounts: messages auto-delete after TTL (time-to-live) via rent reclaim
-- No account can link sender to receiver — only relay nodes see the next hop
+**1. Solana Program (Smart Contract) — Control Plane Only**
+- Custom program managing mix node registry, staking, and routing table
+- Node operators stake SOL to register; slashing on provable misbehavior
+- Epoch-based micro-payment distribution to node operators
+- No message content, no user identities, no routing metadata ever touches on-chain state
 
-**2. Onion Encryption (3-Layer)**
-- Each message wrapped in 3 layers of encryption
-- Each relay node peels one layer, learns only the next hop
-- Uses X25519 + XChaCha20-Poly1305 (same as Signal) + post-quantum Kyber-768 (same as Session V2)
+**2. Sphinx Packet Format + Encryption Stack**
+- Fixed-size packets (constant size regardless of payload — defeats size fingerprinting)
+- Each mix node strips one encryption layer, learns only the next hop
+- Encryption: ML-KEM-1024 (post-quantum, NIST FIPS 203) + X25519 + XChaCha20-Poly1305 + Double Ratchet (forward secrecy per message)
 
 **3. Relay Node Network**
 - Anyone can run a relay node
@@ -81,7 +88,7 @@ Inspired directly by GlassWorm's C2 technique, but inverted for legitimate use:
 | Dev tools | Excellent | Excellent | Build from scratch |
 | Account model | Native fit for "mailboxes" | Not ideal | Custom |
 
-Solana's account model is *perfect* for mailbox-style messaging. Each user gets a program-derived account that acts as their encrypted inbox. Messages are written to it. Reader consumes and deletes (reclaims rent). Fast, cheap, uncensorable.
+Solana's speed and account model are *perfect* for the control plane: node registry writes are cheap, routing table updates propagate in 400ms, and staking/reward logic runs trustlessly on-chain. Message payloads never touch Solana — they flow peer-to-peer through the mixnet, keeping cost near-zero and payloads fully private.
 
 ---
 
@@ -92,7 +99,7 @@ Solana's account model is *perfect* for mailbox-style messaging. Each user gets 
 **Goal:** Prove the architecture works. Ship a CLI tool.
 
 **Deliverables:**
-- Solana program (Rust/Anchor) that stores/retrieves encrypted messages
+- Solana program (Rust/Anchor) for mix node registry, staking, and routing table (control plane only — no message payloads on-chain)
 - CLI client that sends/receives encrypted messages through 1 relay
 - Open-source on GitHub
 - Technical blog post explaining the architecture
@@ -104,11 +111,11 @@ Solana's account model is *perfect* for mailbox-style messaging. Each user gets 
 
 ### PHASE 1: "DARK ALPHA" (Weeks 5-12)
 
-**Goal:** Working desktop app with 3-hop onion routing. Invite-only alpha.
+**Goal:** Working desktop app with 3-hop mixnet routing. Invite-only alpha.
 
 **Deliverables:**
 - Desktop app (Electron/Tauri) — clean, minimal, dark UI
-- 3-hop onion routing through relay network
+- 3-hop mixnet routing (batch, delay, shuffle, cover traffic) through relay network
 - Relay node software anyone can run
 - Staking mechanism for relay nodes (testnet SOL initially)
 - Forward secrecy + post-quantum encryption
@@ -219,7 +226,7 @@ TOR is legal everywhere (except explicitly banned countries). Signal is legal ev
 2. **Incentive moat** — Relay operators get paid, unlike TOR volunteers (sustainable growth)
 3. **Censorship moat** — Can't seize blockchain. Can't DMCA a smart contract. Can't subpoena an account with no identity.
 4. **Network effect moat** — More relay nodes = faster + more anonymous. Token incentives bootstrap this.
-5. **First-mover moat** — Nobody has combined Solana + onion routing + economic incentives yet.
+5. **First-mover moat** — Nobody has combined Solana + mixnet routing + economic incentives yet.
 6. **Technical moat** — Post-quantum encryption from day one (most competitors don't have this yet, Session just added it Dec 2025)
 
 ---
@@ -234,7 +241,7 @@ TOR is legal everywhere (except explicitly banned countries). Signal is legal ev
 | **NullWire wallet trademark conflict** | Medium | High | Rename before public launch |
 | **Better-funded competitor copies us** | High | Medium | Ship fast, build community, open-source = hard to out-compete |
 | **Crypto market crash kills token** | Medium | Medium | Revenue model works without token. Token is accelerant, not foundation. |
-| **Solana memo field limits (566 bytes)** | Low | Certain | Use program accounts for payload, not memos. Memos only for signaling. |
+| **Mixnet latency too high for UX** | Medium | Medium | Tunable via operating modes (Ghost/Shadow/Mist). MIST optimizes for speed; Ghost for max anonymity. Message payloads never touch Solana — latency is purely mixnet-side. |
 | **Can't recruit crypto/protocol engineers** | High | Medium | Remote, competitive pay, mission-driven recruiting |
 
 ---

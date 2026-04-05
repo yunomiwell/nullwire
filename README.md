@@ -28,20 +28,21 @@ NullWire is the first protocol to combine the right architecture (mixnet) with e
 - **Mixnet routing** — Messages are batched, delayed, shuffled, and padded to identical size. Timing correlation becomes infeasible under the protocol's threat model.
 - **Solana control plane** — Node registry, staking, and governance live on-chain. No central server. No single point of failure. Significantly higher censorship resistance than DNS-dependent infrastructure.
 - **Zero-knowledge identity** — Stake SOL, generate a ZK proof of legitimacy, connect. The network never learns who you are.
-- **Post-quantum encryption** — ML-KEM-1024 + X25519 + XChaCha20-Poly1305 + Double Ratchet. Future-proof against quantum adversaries.
+- **X3DH + Double Ratchet E2E** — Forward-secret end-to-end encryption from the first message. Pre-alpha prototype implemented, not yet audited.
+- **Post-quantum encryption** — ML-KEM-1024 + X25519 hybrid key agreement + XChaCha20-Poly1305. Designed to resist harvest-now-decrypt-later attacks.
 - **Tunable anonymity** — GHOST (nation-state resistant, requires sufficient network scale) / SHADOW (balanced) / MIST (everyday use).
 
 ---
 
 ## Documents
 
-**[`NULLWIRE_WHITEPAPER_v2.pdf`](./NULLWIRE_WHITEPAPER_v2.pdf)** — v0.2, April 2026
-26-page technical specification. Architecture, cryptographic stack, threat model, attack resistance, node economics.
-IPFS: `bafkreibkk3653yifyy5gfuk33xiyysjm6ou2enzir5si4ogbcwydcyjoue`
+**[`NULLWIRE_WHITEPAPER_V3.pdf`](./NULLWIRE_WHITEPAPER_V3.pdf)** — v0.3, April 2026
+24-page technical specification. Architecture, cryptographic stack, threat model, control-plane hardening, attack resistance, node economics.
+IPFS: `bafybeihtu45ifqzcq5equoeuqwgyzq2qp4dyud2trde5agdhjhohv2nwxu`
 
-**[`NULLWIRE_ARXIV.pdf`](./NULLWIRE_ARXIV.pdf)** — Academic paper, 21 pages
-Submitted to arXiv cs.CR (pending endorsement). Formal treatment of anonymity guarantees, PQ security, and limitation analysis.
-IPFS: `bafybeibir25fmtxqugeqthuhex57blkm5zgtpmfpk5kz36yha74vyr3uky`
+**[`NULLWIRE_ARXIV_V3.pdf`](./NULLWIRE_ARXIV_V3.pdf)** — Academic paper, Revision 3, 32 pages
+Submitted to arXiv cs.CR (pending endorsement). Formal anonymity guarantees, PQ security, E2E encryption analysis, control-plane integrity, multi-RPC quorum validation, limitations analysis.
+IPFS: `bafybeig4u7xldiacnxzn6c2ps5zelbkflovkjc5mb2s5adbvjofhi5mcui`
 
 ---
 
@@ -49,9 +50,9 @@ IPFS: `bafybeibir25fmtxqugeqthuhex57blkm5zgtpmfpk5kz36yha74vyr3uky`
 
 | Phase | Timeline | Focus | Status |
 |-------|----------|-------|--------|
-| **Phase 0: Proof of Concept** | Q3-Q4 2026 | Rust prototype, Solana devnet, CLI client, mandatory security audit | In development |
-| **Phase 1: Dark Alpha** | Q1-Q2 2027 | Desktop app, 3-hop mixnet, relay nodes, staking | Planned |
-| **Phase 2: Public Launch** | Q3-Q4 2027 | iOS/Android, web client, SDK, seed funding | Planned |
+| **Phase 0: Proof of Concept** | Q2–Q4 2026 | Rust prototype, Solana devnet, CLI client, X3DH + Double Ratchet E2E, mandatory security audit | In development |
+| **Phase 1: Dark Alpha** | Q1–Q2 2027 | Desktop app, 3-hop mixnet, relay nodes, staking, waitlist launch | Planned |
+| **Phase 2: Public Launch** | Q3–Q4 2027 | iOS/Android, web client, SDK, seed funding | Planned |
 | **Phase 3: NullWire Mesh** | 2028 | Full traffic proxy, NullWire Browser, enterprise API | Planned |
 
 Timelines are aspirational and subject to funding and Phase 0 validation results.
@@ -70,7 +71,7 @@ Timelines are aspirational and subject to funding and Phase 0 validation results
 
 ## Status
 
-Whitepaper and architecture specification for NullWire Protocol v0.2. Protocol implementation in active development.
+Whitepaper v0.3 and academic paper Revision 3 published. X3DH + Double Ratchet E2E encryption in pre-alpha prototype. Protocol implementation in active development.
 
 ---
 

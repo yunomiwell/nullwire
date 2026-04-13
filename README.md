@@ -38,11 +38,11 @@ NullWire combines mixnet architecture with post-quantum encryption, multi-RPC qu
 
 **[`NULLWIRE_WHITEPAPER_V3.pdf`](./NULLWIRE_WHITEPAPER_V3.pdf)** — v0.3, April 2026
 24-page technical specification. Architecture, cryptographic stack, threat model, control-plane hardening, attack resistance, node economics.
-IPFS: `bafybeihtu45ifqzcq5equoeuqwgyzq2qp4dyud2trde5agdhjhohv2nwxu`
+IPFS: `bafkreigxfqw2py2giztyyh3nqhcbdvciqrpcngnslsga5flswlwtdcunzu`
 
 **[`NULLWIRE_ARXIV_V3.pdf`](./NULLWIRE_ARXIV_V3.pdf)** — Academic paper, Revision 3, 32 pages
 Submitted to arXiv cs.CR (pending endorsement). Formal anonymity guarantees, PQ security, E2E encryption analysis, control-plane integrity, multi-RPC quorum validation, limitations analysis.
-IPFS: `bafybeig4u7xldiacnxzn6c2ps5zelbkflovkjc5mb2s5adbvjofhi5mcui`
+IPFS: `bafybeifuc25byb7zi2csmjp2hi6oxz6avvlfcvea4pmgfx37ixyzdi4cei`
 
 ---
 

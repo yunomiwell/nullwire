@@ -28,21 +28,21 @@ NullWire combines mixnet architecture with post-quantum encryption, multi-RPC qu
 - **Mixnet routing** — Messages are batched, delayed, shuffled, and padded to identical size. Timing correlation becomes infeasible under the protocol's threat model.
 - **Solana control plane** — Node registry, staking, and governance live on-chain. No central server. No single point of failure. Significantly higher censorship resistance than DNS-dependent infrastructure.
 - **Zero-knowledge identity** — Stake SOL, generate a ZK proof of legitimacy, connect. The network never learns who you are.
-- **X3DH + Double Ratchet E2E** — Forward-secret end-to-end encryption from the first message. Pre-alpha prototype implemented, not yet audited.
-- **Post-quantum encryption** — ML-KEM-1024 + X25519 hybrid key agreement + XChaCha20-Poly1305. Designed to resist harvest-now-decrypt-later attacks.
-- **Tunable anonymity** — GHOST (nation-state resistant, requires sufficient network scale) / SHADOW (balanced) / MIST (everyday use).
+- **X3DH + Double Ratchet E2E** — Forward-secret end-to-end encryption from the first message with ML-KEM-1024 hybrid key exchange (FIPS 203), HKDF-SHA3-256 (FIPS 202), key zeroization, session management. Pre-alpha with significant hardening, not yet externally audited.
+- **Post-quantum encryption** — ML-KEM-1024 + X25519 hybrid key agreement (FIPS 203) + ChaCha20-Poly1305. Shipped and tested. Designed to resist harvest-now-decrypt-later attacks.
+- **Tunable anonymity** — PRIVATE (nation-state resistant, requires sufficient network scale) / BALANCED (strong privacy) / FAST (everyday use).
 
 ---
 
 ## Documents
 
-**[`NULLWIRE_WHITEPAPER_V3.pdf`](./NULLWIRE_WHITEPAPER_V3.pdf)** — v0.3, April 2026
+**[`NULLWIRE_WHITEPAPER_V3.pdf`](./NULLWIRE_WHITEPAPER_V3.pdf)** — v0.4, April 2026
 24-page technical specification. Architecture, cryptographic stack, threat model, control-plane hardening, attack resistance, node economics.
-IPFS: `bafkreigxfqw2py2giztyyh3nqhcbdvciqrpcngnslsga5flswlwtdcunzu`
+IPFS: `bafkreiczb763vfas734ujr7wvyuqxtjrygxgvnkbvrhxcgpciu5iizpgpi`
 
-**[`NULLWIRE_ARXIV_V3.pdf`](./NULLWIRE_ARXIV_V3.pdf)** — Academic paper, Revision 3, 32 pages
+**[`NULLWIRE_ARXIV_V3.pdf`](./NULLWIRE_ARXIV_V3.pdf)** — Academic paper, Revision 4, 32 pages
 Submitted to arXiv cs.CR (pending endorsement). Formal anonymity guarantees, PQ security, E2E encryption analysis, control-plane integrity, multi-RPC quorum validation, limitations analysis.
-IPFS: `bafybeifuc25byb7zi2csmjp2hi6oxz6avvlfcvea4pmgfx37ixyzdi4cei`
+IPFS: `bafybeids6l2dgx6xgqwvimh5cxsnqmaaofstdd7ux4v6zdgz6p5ur7buhu`
 
 ---
 
@@ -71,7 +71,7 @@ Timelines are aspirational and subject to funding and Phase 0 validation results
 
 ## Status
 
-Whitepaper v0.3 and academic paper Revision 3 published. X3DH + Double Ratchet E2E encryption in pre-alpha prototype. Protocol implementation in active development.
+Whitepaper v0.4 and academic paper Revision 4 published. X3DH + Double Ratchet E2E encryption with ML-KEM-1024 hybrid (FIPS 203) and HKDF-SHA3-256 (FIPS 202) in pre-alpha with significant hardening. Protocol implementation in active development.
 
 ---
 

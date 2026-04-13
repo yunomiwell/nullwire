@@ -73,9 +73,9 @@ Phase 0 does not prove:
 
 The prototype exposes three delay profiles for measurement only:
 
-- `NoDelay`
-- `ReducedPoisson`
-- `LoopixLike`
+- `Fast` (formerly NoDelay)
+- `Balanced` (formerly ReducedPoisson)
+- `Private` (formerly LoopixLike)
 
 These are test configurations.
 

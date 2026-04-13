@@ -134,9 +134,9 @@ Phase 0 reward model:
 ### Measurement
 
 - Measure median and p95 latency for:
-  - no delay
-  - reduced delay
-  - Loopix-like delay
+  - Fast (no delay)
+  - Balanced (reduced Poisson delay)
+  - Private (full Loopix-like delay)
 - Measure bandwidth overhead with and without cover traffic.
 - Measure throughput ceiling per relay and per gateway on one host.
 
@@ -151,7 +151,7 @@ Phase 0 reward model:
 
 Continue only if:
 - 3-hop delivery works repeatedly
-- measured latency is tolerable enough to justify a Shadow-like next phase
+- measured latency is tolerable enough to justify a Balanced-like next phase
 - docs and code describe the same system
 - external review finds no fatal architectural flaw
 

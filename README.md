@@ -17,9 +17,9 @@ Every existing privacy tool has a fatal flaw:
 | **TOR** | Timing correlation attacks. Nation-states can deanonymize users in minutes. |
 | **Signal** | Requires a phone number. Centralized servers. Metadata is visible. |
 | **Session** | Onion routing — same fundamental weakness as TOR. |
-| **Nym** | Correct mixnet architecture. No consumer product after 7 years. |
+| **Nym** | Sound mixnet architecture. NymVPN shipped 2025 — first real consumer mixnet. Token-dependent infrastructure, no PQ encryption, no formalized control-plane integrity. |
 
-NullWire is the first protocol to combine the right architecture (mixnet) with economic incentives, post-quantum encryption, and a consumer product strategy.
+NullWire combines mixnet architecture with post-quantum encryption, multi-RPC quorum validation, and a consumer messaging strategy — properties currently split across different systems.
 
 ---
 

@@ -1,77 +1,76 @@
 # NullWire Protocol
 
-**A Solana-native anonymous communication protocol. Built for 2026.**
+**A post-quantum, mix-network messaging protocol with an on-chain node registry. Pre-alpha.**
 
-NullWire combines a Loopix-based mixnet, hybrid post-quantum encryption, and zero-knowledge identity into a single protocol — designed to make traffic analysis infeasible for the first time in a consumer product.
+NullWire pairs a Loopix-style mixnet with hybrid post-quantum end-to-end encryption. The aim is to protect both the *content* of a message and the *metadata* — the fact that you sent one, and to whom. The encryption is implemented and working today; the mixnet and its decentralization are early. See **Status** below for an honest picture.
 
-> *"Encrypting the content of a message is solved. Hiding the fact that you sent one is not. NullWire solves both."*
-
----
-
-## Why NullWire Exists
-
-Every existing privacy tool has a fatal flaw:
-
-| Tool | The Problem |
-|------|------------|
-| **TOR** | Timing correlation attacks. Nation-states can deanonymize users in minutes. |
-| **Signal** | Requires a phone number. Centralized servers. Metadata is visible. |
-| **Session** | Onion routing — same fundamental weakness as TOR. |
-| **Nym** | Sound mixnet architecture. NymVPN shipped 2025 — first real consumer mixnet. Token-dependent infrastructure, no PQ encryption, no formalized control-plane integrity. |
-
-NullWire combines mixnet architecture with post-quantum encryption, multi-RPC quorum validation, and a consumer messaging strategy — properties currently split across different systems.
+> *"Encrypting the content of a message is well understood. Hiding the fact that you sent one is not. NullWire is an attempt at both."*
 
 ---
 
-## How It Works
+## Why NullWire exists
 
-- **Mixnet routing** — Messages are batched, delayed, shuffled, and padded to identical size. Timing correlation becomes infeasible under the protocol's threat model.
-- **Solana control plane** — Node registry, staking, and governance live on-chain. No central server. No single point of failure. Significantly higher censorship resistance than DNS-dependent infrastructure.
-- **Zero-knowledge identity** — Stake SOL, generate a ZK proof of legitimacy, connect. The network never learns who you are.
-- **X3DH + Double Ratchet E2E** — Forward-secret end-to-end encryption from the first message with ML-KEM-1024 hybrid key exchange (FIPS 203), HKDF-SHA3-256 (FIPS 202), key zeroization, session management. Pre-alpha with significant hardening, not yet externally audited.
-- **Post-quantum encryption** — ML-KEM-1024 + X25519 hybrid key agreement (FIPS 203) + ChaCha20-Poly1305. Shipped and tested. Designed to resist harvest-now-decrypt-later attacks.
-- **Tunable anonymity** — PRIVATE (nation-state resistant, requires sufficient network scale) / BALANCED (strong privacy) / FAST (everyday use).
+Every existing privacy tool makes a trade-off:
+
+| Tool | The trade-off |
+|------|---------------|
+| **Tor** | Strong and widely used — but vulnerable to timing correlation by an adversary who can observe both ends. |
+| **Signal** | Excellent content encryption — but requires a phone number and runs on centralized servers. |
+| **Session** | Onion routing, so it shares Tor's end-to-end correlation weakness. |
+| **Nym** | Strong mixnet design; NymVPN shipped in 2025. Infrastructure is token-gated. |
+
+NullWire's bet is to combine a mixnet, post-quantum encryption, and an on-chain node registry in one consumer-focused protocol. That combination is the research goal — not a finished claim.
+
+---
+
+## How it works
+
+- **Hybrid post-quantum E2E encryption** — ML-KEM-1024 + X25519 hybrid key agreement (FIPS 203), ChaCha20-Poly1305 AEAD, HKDF-SHA3-256, X3DH + Double Ratchet with header encryption. Forward-secret from the first message; designed to resist harvest-now-decrypt-later attacks. **Implemented, tested, working.**
+- **Mixnet routing** — messages are padded to a fixed size, onion-wrapped, and routed through multiple hops so timing correlation is hard. **Implemented; today it runs on a small operator-run mesh — see Status.**
+- **On-chain node registry** — the mesh directory lives on Solana (currently *devnet*) instead of DNS, for verifiable membership and censorship resistance.
+- **Tunable routing** — trade latency against privacy depending on the threat you face.
+
+---
+
+## Status — the honest version
+
+NullWire is **pre-alpha** (current build `v0.1.3-rc48`). Concretely:
+
+- **The cryptography is real.** Hybrid post-quantum E2E encryption is implemented, carries a substantial test suite, and works end-to-end. It has **not** had an external third-party audit — that is the single biggest item before any production use.
+- **The mixnet is small and single-operator.** The live mesh is a handful of nodes currently run by one operator. A mixnet's anonymity comes from many independent, non-colluding operators; recruiting them is a core roadmap item. For now, treat NullWire as a working prototype of the protocol — not as a network that delivers strong anonymity at scale.
+- **The registry is on devnet.** The Solana node registry runs on devnet, a test network. Mainnet comes after the audit.
+
+We would rather undersell this than oversell it. If a claim in this README isn't backed by the code, please open an issue.
 
 ---
 
 ## Documents
 
-**[`NULLWIRE_WHITEPAPER_V4.pdf`](./NULLWIRE_WHITEPAPER_V4.pdf)** — v0.4, April 2026
-24-page technical specification. Architecture, cryptographic stack, threat model, control-plane hardening, attack resistance, node economics.
-IPFS: `bafkreiczb763vfas734ujr7wvyuqxtjrygxgvnkbvrhxcgpciu5iizpgpi`
-
-**[`NULLWIRE_ARXIV_V4.pdf`](./NULLWIRE_ARXIV_V4.pdf)** — Academic paper, Revision 4, 32 pages
-Submitted to arXiv cs.CR (pending endorsement). Formal anonymity guarantees, PQ security, E2E encryption analysis, control-plane integrity, multi-RPC quorum validation, limitations analysis.
-IPFS: `bafybeids6l2dgx6xgqwvimh5cxsnqmaaofstdd7ux4v6zdgz6p5ur7buhu`
+**`NULLWIRE_WHITEPAPER_V4.pdf`** — technical specification: architecture, the cryptographic stack, and the threat model.
 
 ---
 
 ## Roadmap
 
-| Phase | Timeline | Focus | Status |
-|-------|----------|-------|--------|
-| **Phase 0: Proof of Concept** | Q2–Q4 2026 | Rust prototype, Solana devnet, CLI client, X3DH + Double Ratchet E2E, mandatory security audit | In development |
-| **Phase 1: Dark Alpha** | Q1–Q2 2027 | Desktop app, 3-hop mixnet, relay nodes, staking, waitlist launch | Planned |
-| **Phase 2: Public Launch** | Q3–Q4 2027 | iOS/Android, web client, SDK, seed funding | Planned |
-| **Phase 3: NullWire Mesh** | 2028 | Full traffic proxy, NullWire Browser, enterprise API | Planned |
+| Phase | Focus | Status |
+|-------|-------|--------|
+| **Phase 0 — Proof of Concept** | Rust implementation, Solana devnet, CLI + desktop client, hybrid PQ E2E, external security audit | In progress |
+| **Phase 1 — Alpha** | Independent multi-operator mesh, hardened client, waitlist | Planned |
+| **Phase 2 — Public** | Mobile clients, SDK, mainnet | Planned |
 
-Timelines are aspirational and subject to funding and Phase 0 validation results.
+Timelines depend on funding, audit outcomes, and Phase 0 results. Anything beyond Phase 0 — staking, key recovery, broader identity options — is design work, not shipped code.
 
 ---
 
-## Looking For
+## Looking for
 
-- **Solana / Rust engineers** interested in building privacy infrastructure
-- **Cryptographers** familiar with Loopix / mixnet design
+- **Rust / Solana engineers** interested in privacy infrastructure
+- **Cryptographers** familiar with mixnet / Loopix design
+- **Independent relay operators** — a mixnet needs operators who don't all answer to one party
 - Anyone who believes private communication is a right, not a privilege
 
-**Contact:** Open an issue · X [@nllwrprtcl](https://x.com/nllwrprtcl) · relay@nullwire.xyz
-
----
-
-## Status
-
-Whitepaper v0.4 and academic paper Revision 4 published. X3DH + Double Ratchet E2E encryption with ML-KEM-1024 hybrid (FIPS 203) and HKDF-SHA3-256 (FIPS 202) in pre-alpha with significant hardening. Protocol implementation in active development.
+**Contact:** open an issue · X [@nllwrprtcl](https://x.com/nllwrprtcl) · relay@nullwire.xyz
+**Security reports:** see [`SECURITY.md`](./SECURITY.md)
 
 ---
 
@@ -79,4 +78,4 @@ Whitepaper v0.4 and academic paper Revision 4 published. X3DH + Double Ratchet E
 
 MIT License — Copyright (c) 2026 yunomiwell
 
-NullWire Protocol is a legitimate privacy tool. Building it is legal and protected as free speech ([Bernstein v. DOJ, 1999](https://en.wikipedia.org/wiki/Bernstein_v._United_States)).
+NullWire is a legitimate privacy tool. Writing and publishing cryptographic software is lawful and protected speech ([Bernstein v. United States](https://en.wikipedia.org/wiki/Bernstein_v._United_States)).
